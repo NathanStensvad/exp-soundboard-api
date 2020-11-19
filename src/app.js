@@ -5,6 +5,8 @@ const cors = require('cors')
 const {CLIENT_ORIGIN} = require('./config');
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
+const soundboardsRouter = require('./soundboards/soundboards-router')
+const usersRouter = require('./users/users-router')
 
 const app = express()
 
@@ -23,6 +25,9 @@ app.use(
 app.get('/', (req, res) => {
     res.send('Hello, world!')
 })
+
+app.use(soundboardsRouter)
+app.use(usersRouter)
 
 app.use(function errorHandler(error, req, res, next) {
     let response
