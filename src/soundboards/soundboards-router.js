@@ -1,6 +1,7 @@
 const path = require('path')
 const express = require('express')
 const SoundboardsService = require('./soundboards-service')
+const AuthHelper = require('../AuthHelper')
 
 const SoundboardsRouter = express.Router()
 const jsonParser = express.json()
@@ -20,8 +21,10 @@ SoundboardsRouter
             })
             .catch(next)
     })
-    .post(jsonParser, (req, res) => {
-        const { name, user_id, public } = req.body;
+    .post(jsonParser, AuthHelper.requireAuth, (req, res) => {
+        const { name, public } = req.body;
+        const user_id = res.user.id;
+        console.log(res.user)
         const newSoundboard = { name, user_id, public }
 
         for (const [key, value] of Object.entries(newSoundboard)) {
@@ -114,6 +117,31 @@ SoundboardsRouter
         .catch(next)
 
         //.then(() => SoundboardService.updateEntries(knex, soundboard_id, req.body.soundboardEntrises))
+    })
+
+    SoundboardsRouter
+    .route('/api/users/:id/soundboards')
+    .all((req, res, next) => {
+        SoundboardsService.getByUserId(
+            req.app.get('db'),
+            req.params.id
+        )
+            .then(user => {
+                if (!user) {
+                    return res.status(404).json({
+                        error: { message: `User doesn't exist` }
+                    })
+                }
+                res.user = user
+                next()
+            })
+            .catch(next)
+    })
+    .get((req, res, next) => {
+        SoundboardsService.getUserSoundboards(req.app.get('db'), res.user.id).then(
+            (soundboards) => res.json(soundboards)
+        )
+        .catch(next)
     })
 
 module.exports = SoundboardsRouter

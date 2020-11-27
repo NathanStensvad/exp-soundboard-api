@@ -2,11 +2,13 @@ require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
-const {CLIENT_ORIGIN} = require('./config');
+const { CLIENT_ORIGIN } = require('./config');
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 const soundboardsRouter = require('./soundboards/soundboards-router')
-const usersRouter = require('./users/users-router')
+const UsersService = require('./users-service')
+const AuthHelper = require('./AuthHelper')
+const bodyParser = require('body-parser')
 
 const app = express()
 
@@ -16,24 +18,36 @@ const morganOption = (NODE_ENV === 'production')
 
 app.use(morgan(morganOption))
 app.use(helmet())
-app.use(
-    cors({
-        origin: CLIENT_ORIGIN
-    })
-);
+app.use(cors())
+app.use(bodyParser.json())
 
-app.use(function validateBearerToken(req, res, next) {
-    const apiToken = process.env.API_TOKEN
-    const authToken = req.get('Authorization')
+app.post('/login', (req, res) => {
+    console.log(req.body)
+    const { name, password } = req.body;
 
-    if (!authToken || authToken.split(' ')[1] !== apiToken) {
-        return res.status(401).json({ error: 'Unauthorized request' })
-    }
-    next()
-})
+    if (!name || !password)
+        return res.status(400).json(
+            { error: "body must contain name and password" }
+        );
+
+    UsersService.getByUsername(req.app.get('db'), name).then(
+        (user) => {
+            if (!user[0])
+                return res.status(401).json({ error: "Invalid username or password" });
+            if(user[0].password !== password)
+                return res.status(401).json({ error: "Invalid username or password" });
+
+            return res.json({
+                user: {
+                    id: user[0].id,
+                    name: user[0].name
+                },
+                token: AuthHelper.generateToken(user[0])
+            });
+        });
+});
 
 app.use(soundboardsRouter)
-app.use(usersRouter)
 
 app.use(function errorHandler(error, req, res, next) {
     let response

@@ -1,4 +1,4 @@
-INSERT INTO soundboardEntries (soundboard_id, file, activationKeysNumbers)
+INSERT INTO "soundboardEntries" (soundboard_id, file, activationKeysNumbers)
 VALUES
     (1, 
     'C:\\Users\\TACO\\Desktop\\Soundboards\\Imperial Watch Quotes\\Fighting\\For the empire.mp3',

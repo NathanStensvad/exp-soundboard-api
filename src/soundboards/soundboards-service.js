@@ -11,7 +11,7 @@ function convertToJs(results) {
                 name: line.name,
                 user_id: line.user_id,
                 public: line.public,
-                soundboardentries: []
+                soundboardEntries: []
             };
 
             soundBoards.push(soundBoard);
@@ -26,7 +26,7 @@ function convertToJs(results) {
         };
         const soundboard = soundBoards.find(s => s.id === line.soundboard_id)
         if (soundboard) {
-            soundboard.soundboardentries
+            soundboard.soundboardEntries
                 .push(soundBoardEntry);
         }
     }
@@ -36,7 +36,7 @@ function convertToJs(results) {
 
 function _soundboardsWithEntries(knex) {
     return knex.select('*').from('soundboards')
-        .leftJoin('soundboardentries', 'soundboardentries.soundboard_id', 'soundboards.id')
+        .leftJoin('soundboardEntries', 'soundboardEntries.soundboard_id', 'soundboards.id')
 }
 
 const SoundboardsService = {
@@ -45,13 +45,16 @@ const SoundboardsService = {
             .then(convertToJs)
     },
     getUserSoundboards(knex, user_id) {
-        return _soundboardsWithEntries(knex).where('user_id', user_id)
+        return _soundboardsWithEntries(knex).orWhere('user_id', user_id).orWhere('public', true)
             .then(convertToJs)
     },
     getById(knex, id) {
         return _soundboardsWithEntries(knex).where('id', id).then(
             results => convertToJs(results)[0]
         )
+    },
+    getByUserId(knex, id) {
+        return knex('users').where({ id }).first()
     },
     insertSoundboard(knex, newSoundboard) {
         return knex
@@ -74,13 +77,13 @@ const SoundboardsService = {
             .then(() => this.deleteEntries(knex,id))
     },
     deleteEntries(knex, soundboard_id) {
-        return knex('soundboardentries').where('soundboard_id', soundboard_id).del()
+        return knex('soundboardEntries').where('soundboard_id', soundboard_id).del()
     },
     updateEntries(knex, soundboard_id, newEntries) { // newEntries = [{file, activationKeysNumbers}]
         const entries = newEntries.map((entry) => ({ ...entry, soundboard_id }));
 
         return this.deleteEntries(knex, soundboard_id).then(
-            () => knex('soundboardentries').insert(entries)
+            () => knex('soundboardEntries').insert(entries)
         );
     }
 }

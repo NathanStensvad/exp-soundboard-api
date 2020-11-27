@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS soundboardentries
+DROP TABLE IF EXISTS "soundboardEntries"
