@@ -21,7 +21,7 @@ app.use(helmet())
 app.use(cors())
 app.use(bodyParser.json())
 
-app.post('/login', (req, res) => {
+app.post('/api/login', (req, res) => {
     console.log(req.body)
     const { name, password } = req.body;
 

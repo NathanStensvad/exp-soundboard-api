@@ -40,7 +40,7 @@ function makeSoundboardEntriesArray() {
         {
             soundboard_id: 1,
             file: "First Entry One",
-            activationKeysNumbers: [
+            activationkeysnumbers: [
                 18,
                 99
             ]
@@ -48,21 +48,21 @@ function makeSoundboardEntriesArray() {
         {
             soundboard_id: 1,
             file: "First Entry Two",
-            activationKeysNumbers: [
+            activationkeysnumbers: [
                 23
             ]
         },
         {
             soundboard_id: 1,
             file: "First Entry Three",
-            activationKeysNumbers: [
+            activationkeysnumbers: [
                 53, 42
             ]
         },
         {
             soundboard_id: 2,
             file: "Second Entry One",
-            activationKeysNumbers: [
+            activationkeysnumbers: [
                 17,
                 18,
                 107
@@ -71,14 +71,14 @@ function makeSoundboardEntriesArray() {
         {
             soundboard_id: 3,
             file: "Third Entry One",
-            activationKeysNumbers: [
+            activationkeysnumbers: [
                 4646, 981
             ]
         },
         {
             soundboard_id: 3,
             file: "Third Entry Two",
-            activationKeysNumbers: [
+            activationkeysnumbers: [
                 9000
             ]
         }
