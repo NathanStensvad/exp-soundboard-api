@@ -114,21 +114,22 @@ describe('Soundboards Endpoints', function () {
     //Post
 
     describe(`POST api/soundboards`, () => {
+        const newSoundboard = {
+            name: "DELETEME",
+            user_id: 1,
+            public: false
+        }
+
+        const testUsers = makeUsersArray()
+
+        beforeEach('insert users', () => {
+            return db
+                .into('users')
+                .insert(testUsers)
+        })
         it(`creates a soundboard, responding with 201 and the new soundboard`, function () {
-            this.retries(3)
-            const newSoundboard = {
-                name: "DELETEME",
-                user_id: 1,
-                public: false
-            }
-
-            const testUsers = makeUsersArray()
-
-            beforeEach('insert users', () => {
-                return db
-                    .into('users')
-                    .insert(testUsers)
-            })
+            //this.retries(3)
+            
 
             return supertest(app)
                 .post('/api/soundboards')
