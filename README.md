@@ -24,3 +24,9 @@ Run the tests `npm test`
 ## Deploying
 
 When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's master branch.
+
+## Seeding
+
+psql -U nathan -d exp-soundboard -f ./seeds/seed.users.sql
+psql -U nathan -d exp-soundboard -f ./seeds/seed.soundboards.sql
+psql -U nathan -d exp-soundboard -f ./seeds/seed.soundboardEntries.sql
