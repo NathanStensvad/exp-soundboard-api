@@ -30,3 +30,6 @@ When your new project is ready for deployment, add a new Heroku application with
 psql -U nathan -d exp-soundboard -f ./seeds/seed.users.sql
 psql -U nathan -d exp-soundboard -f ./seeds/seed.soundboards.sql
 psql -U nathan -d exp-soundboard -f ./seeds/seed.soundboardEntries.sql
+
+heroku run "psql $DATABASE_URL -f ./seeds/seed.users.sql"
+INSERT INTO users (name, password) VALUES ('username', 'password')
