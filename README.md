@@ -19,29 +19,30 @@ GET: Will return an array of soundboards with their entries
 
 returns:
 
-"id": (integer),
-"name": (String),
-"user_id": (integer),
-"public": (boolean),
-"soundboardEntries": [
-    {
-        "file": (String),
-        "activationKeysNumbers": [
-            (integers)
-        ]
-    }
-]
+    "id": (integer),
+    "name": (String),
+    "user_id": (integer),
+    "public": (boolean),
+    "soundboardEntries": [
+        {
+            "file": (String),
+            "activationKeysNumbers": [
+                (integers)
+            ]
+        }
+    ]
 
 POST: Posts a new soundboard
 required parameters: name(string), public(boolean)
 
 returns:
-{
-    "id": (integer),
-    "name": (String),
-    "user_id": (integer),
-    "public": (boolean)
-}
+
+    {
+        "id": (integer),
+        "name": (String),
+        "user_id": (integer),
+        "public": (boolean)
+    }
 
 
 api/soundboards/:id
@@ -54,22 +55,23 @@ PATCH: Updates a specific soundboard
 required parameters: name(String), public(boolean), soundboardEntries(array of objects)
 
 Example:
-"name": "Imperial Watch",
-"public": true,
-"soundboardEntries": [
-    {
-        "file": "C:\\Users\\TACO\\Documents\\EXP-Soundboards\\Imperial Watch\\For the empire.mp3",
-        "activationKeysNumbers": [
-            97
-        ]
-    },
-    {
-        "file": "C:\\Users\\TACO\\Documents\\EXP-Soundboards\\Imperial Watch\\Ive fought mudcrabs more fearsome than you.mp3",
-        "activationKeysNumbers": [
-            17, 96
-        ]
-    }
-]
+
+    "name": "Imperial Watch",
+    "public": true,
+    "soundboardEntries": [
+        {
+            "file": "C:\\Users\\TACO\\Documents\\EXP-Soundboards\\Imperial Watch\\For the empire.mp3",
+            "activationKeysNumbers": [
+                97
+            ]
+        },
+        {
+            "file": "C:\\Users\\TACO\\Documents\\EXP-Soundboards\\Imperial Watch\\Ive fought mudcrabs more fearsome than you.mp3",
+            "activationKeysNumbers": [
+                17, 96
+            ]
+        }
+    ]
 
 
 api/soundboards/:id/fork
